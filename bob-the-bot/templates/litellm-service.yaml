@@ -1,0 +1,15 @@
+{{- if .Values.litellm.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.litellm.name }}
+  labels:
+    app: {{ .Values.litellm.name }}
+spec:
+  selector:
+    app: {{ .Values.litellm.name }}
+  ports:
+    - port: {{ .Values.litellm.service.port }}
+      targetPort: {{ .Values.litellm.service.port }}
+  type: {{ .Values.litellm.service.type }}
+{{- end }}

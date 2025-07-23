@@ -1,0 +1,55 @@
+{{- if .Values.litellm.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.litellm.name }}
+  labels:
+    app: {{ .Values.litellm.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.litellm.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.litellm.name }}
+    spec:
+      containers:
+      - name: {{ .Values.litellm.name }}
+        image: "{{ .Values.litellm.image.repository }}:{{ .Values.litellm.image.tag }}"
+        ports:
+        - containerPort: 4000
+        envFrom:
+        - secretRef:
+            name: litellm-secrets
+        env:
+        - name: POSTGRES_HOST
+          value: "skaipostgressdb.postgres.database.azure.com"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          value: "litellm"
+        - name: STORE_MODEL_IN_DB
+          value: "True"
+        - name: HOST_NAME
+          value: "localhost"
+        - name: LITELLM_LOG
+          value: "ERROR"
+        - name: LITELLM_MODE
+          value: "PRODUCTION"
+        - name: DISABLE_SWAGGER_UI
+          value: "True"
+        resources: {{- toYaml .Values.litellm.resources | nindent 12 }}
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config/proxy_config.yaml
+          subPath: proxy_config.yaml
+        args:
+        - "--config"
+        - "/app/config/proxy_config.yaml"
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ .Values.litellm.configMap.name }}
+{{- end }}
