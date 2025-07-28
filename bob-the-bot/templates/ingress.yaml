@@ -17,7 +17,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ include "bob-the-bot.fullname" $ }}
+                name: "bobthebot"
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}

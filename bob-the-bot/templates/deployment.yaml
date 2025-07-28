@@ -22,4 +22,6 @@ spec:
         envFrom:
           - secretRef:
               name: bob-secrets
+          - secretRef:
+              name: google-drive-secrets
         resources: {{- toYaml .Values.resources | nindent 12 }}

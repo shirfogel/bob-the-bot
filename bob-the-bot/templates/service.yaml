@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "bob-the-bot.fullname" . }}
+  name: "bobthebot"
   labels: {{ include "bob-the-bot.labels" . | nindent 4 }}
 spec:
   selector: {{ include "bob-the-bot.selectorLabels" . | nindent 4 }}

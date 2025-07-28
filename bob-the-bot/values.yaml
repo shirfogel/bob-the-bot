@@ -1,4 +1,4 @@
-replicas: 1
+replicas: 2
 
 strategy:
   type: RollingUpdate
@@ -25,7 +25,7 @@ resources:
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 ingress:
   enabled: true
