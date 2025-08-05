@@ -12,6 +12,10 @@ spec:
     metadata:
       labels: {{ include "bob-the-bot.labels" . | nindent 8 }}
     spec:
+      volumes:
+      - name: shared-volume
+        persistentVolumeClaim:
+          claimName: shared-bob-volume
       containers:
       - name: bob-the-bot
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -24,4 +28,9 @@ spec:
               name: bob-secrets
           - secretRef:
               name: google-drive-secrets
+        volumeMounts:
+          - name: shared-volume
+            mountPath: /app/shared-data
+
+
         resources: {{- toYaml .Values.resources | nindent 12 }}

@@ -1,0 +1,16 @@
+{{- if .Values.sharedVolume.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.sharedVolume.name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/component: shared-volume
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: {{ .Values.sharedVolume.storageClass }}
+  resources:
+    requests:
+      storage: {{ .Values.sharedVolume.size }}
+{{- end }}

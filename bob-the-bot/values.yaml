@@ -1,4 +1,4 @@
-replicas: 2
+replicas: 1
 
 strategy:
   type: RollingUpdate
@@ -8,7 +8,7 @@ strategy:
 
 image:
   repository: skaiaksreg.azurecr.io/bob-the-bot
-  tag: 161
+  tag: 163
   pullPolicy: IfNotPresent
 
 pods:
@@ -32,12 +32,24 @@ ingress:
   className: "nginx"
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
   hosts:
     - host: ""
       paths:
         - path: /
           pathType: Prefix
   tls: []
+
+sharedVolume:
+  enabled: true
+  name: shared-bob-volume
+  storageClass: azurefile
+  size: 5Gi
 
 config:
   enabled: false
