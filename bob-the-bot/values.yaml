@@ -8,7 +8,7 @@ strategy:
 
 image:
   repository: skaiaksreg.azurecr.io/bob-the-bot
-  tag: 165
+  tag: 166
   pullPolicy: IfNotPresent
 
 pods:
@@ -17,11 +17,11 @@ pods:
 
 resources:
   limits:
-    cpu: 1
-    memory: 2500Mi
+    cpu: 2
+    memory: 2
   requests:
-    cpu: 400m
-    memory: 700Mi
+    cpu: 2
+    memory: 2
 
 service:
   type: ClusterIP
@@ -68,7 +68,7 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 litellm:
-  enabled: true
+  enabled: false
   name: litellm
   image:
     repository: skaiaksreg.azurecr.io/litellm
