@@ -8,7 +8,7 @@ strategy:
 
 image:
   repository: skaiaksreg.azurecr.io/bob-the-bot
-  tag: 164
+  tag: 165
   pullPolicy: IfNotPresent
 
 pods:
